@@ -54,10 +54,6 @@ public class Main {
             System.out.println(ex.toString());
         }
         
-        // Get peers from environment variables
-        String peer1 = System.getenv("PEER1");
-        String peer2 = System.getenv("PEER2");
-        LOGGER.info(String.format("peers %s %s", peer1, peer2));
         (new ClientThread(peers,localHeater)).run();
     }
     

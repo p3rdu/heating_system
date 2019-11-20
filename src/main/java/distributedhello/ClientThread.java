@@ -39,17 +39,17 @@ public class ClientThread implements Runnable {
         for (Node s : peers) {
             int i = 1;
             while(true){
-                System.out.println(i++ +". try to connect peer: " + s.hostname + "; " + (s.port-1));
-                if (isSocketAlive(s.hostname,s.port-1)) break;
+                System.out.println(i++ +". try to connect peer: " + s.hostname + "; " + s.port);
+                if (isSocketAlive(s.hostname,s.port)) break;
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(3000);
                 } catch (Exception e) {
                     System.err.println(e.toString());
                 }
             }
             try {
                 for(int j=0; j<100; j++) {
-                    Registry registry = LocateRegistry.getRegistry(s.hostname, s.port-1);
+                    Registry registry = LocateRegistry.getRegistry(s.hostname, s.port);
                     Heater stub = (Heater) registry.lookup("Heater");
                     // String response = "power " + stub.getPower();
                     String[] response = (stub.getDumpPackage()).split(";");
@@ -80,9 +80,9 @@ public class ClientThread implements Runnable {
             isAlive = true;
 
             } catch (SocketTimeoutException exception) {
-                    // System.out.println("SocketTimeoutException " + host + ":" + port + ". " + exception.getMessage());
+                    System.out.println("SocketTimeoutException " + host + ":" + port + ". " + exception.getMessage());
             } catch (IOException exception) {
-                    // System.out.println("IOException - Unable to connect to " + host + ":" + port + ". " + exception.getMessage());
+                    System.out.println("IOException - Unable to connect to " + host + ":" + port + ". " + exception.getMessage());
         }
         return isAlive;
     }

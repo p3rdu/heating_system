@@ -5,6 +5,7 @@
  */
 package distributedhello;
 
+import java.io.ByteArrayOutputStream;
 import java.rmi.RemoteException;
 import java.rmi.server.ServerNotActiveException;
 import java.util.Random;
@@ -16,13 +17,16 @@ import java.sql.Timestamp;
  * @author psmaatta
  */
 public class Radiator implements Heater {
-
+    
+    final static int KB = 1024;
+    final static int MB = 1024*KB;
+    final static int TENMBS = 10*MB;
     int power = 1000;
     final int id;
     private static final Logger LOGGER = Logger.getLogger(Main.class.getName());
-    String data_small = "";
-    String data_mid = "";
-    String data_large = "";
+    String data_small;
+    String data_mid;
+    String data_large;
 
     public Radiator() {
         // let it be a natural number just for clarity
@@ -31,18 +35,31 @@ public class Radiator implements Heater {
         else id = tmpid;
         LOGGER.info("local Radiator ID: " + id);
 
-        String kbyte = "";
+//      BAD        
+//        for(int i=0; i<1024; i++) {
+//            kbyte += "a";
+//        }
 
-        for(int i=0; i<1024; i++) {
-            kbyte += "a";
-        }
+//      BETTER
+//        char[] kByteCharArray = new char[1024];
+//        Arrays.fill(kByteCharArray, 'a');
 
+//      BEST
+        byte a = (byte)'a';
+        byte[] kByteArray = new byte[KB];
+        Arrays.fill(kByteArray, a);
+        ByteArrayOutputStream small = new ByteArrayOutputStream(100*KB);
+        ByteArrayOutputStream mid = new ByteArrayOutputStream(1000*KB);
+        ByteArrayOutputStream large = new ByteArrayOutputStream(10000*KB);
         int size = 10000;
         for(int i=0; i<size; i++) {
-            if(i < size/100) { this.data_small += kbyte; }
-            if(i < size/10) { this.data_mid += kbyte; }
-            this.data_large += kbyte;
+            if(i < size/100) { small.write(kByteArray, 0, KB); }
+            if(i < size/10) { mid.write(kByteArray, 0, KB); }
+            large.write(kByteArray, 0, KB);
         }
+        data_small = small.toString();
+        data_mid = mid.toString();
+        data_large = large.toString();
     }
 
     @Override

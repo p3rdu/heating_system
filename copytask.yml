@@ -9,6 +9,7 @@
       build:
         path: /Users/psmaatta/NetBeansProjects/mavenproject1/distributedhello
       source: build
+      force_source: yes
     tags:
       - build
   
@@ -31,7 +32,7 @@
   
   - name: Load images to image repositories
     docker_image:
-      name: p3rdu/distributedhello
+      name: 'p3rdu/distributedhello'
       load_path: distributedhello.tar
       source: load
     become: yes

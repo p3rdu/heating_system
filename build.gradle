@@ -20,3 +20,9 @@ jar {
         )
     }
 }
+
+run {
+    args '127.0.0.1'
+    environment 'PEER1', '192.168.0.1'
+    environment 'PEER2', '192.168.0.2'
+}
