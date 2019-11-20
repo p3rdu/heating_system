@@ -48,14 +48,19 @@ public class ClientThread implements Runnable {
                 }
             }
             try {
-                for(int j=0; j<100; j++) {
-                    Registry registry = LocateRegistry.getRegistry(s.hostname, s.port);
-                    Heater stub = (Heater) registry.lookup("Heater");
+                Registry registry = LocateRegistry.getRegistry(s.hostname, s.port);
+                Heater stub = (Heater) registry.lookup("Heater");
+                for(int j=0; j<10; j++) {                   
                     // String response = "power " + stub.getPower();
-                    String[] response = (stub.getDumpPackage()).split(";");
-                    System.out.println("Sending Time: " +
-                        ((new Date()).getTime() - Long.parseLong(response[1])));
-                    Thread.sleep(1000);
+                    Date now = new Date();
+                    long nowInMillis = now.getTime();
+                    System.out.println("Calling the remote method at " + now.toString());
+                    // the remote call !!!
+                    String response = stub.getDumpPackage(nowInMillis);
+                    long timeFromPacket = Long.parseLong(response.split(";")[1]);
+                    long timeDifference = new Date().getTime() - timeFromPacket;
+                    System.out.println("Sending time was: " + timeDifference);
+                    Thread.sleep(5000);
                 }
                 // System.out.printf("radiator ID %d%n", stub.getID());
                 // System.out.println("response: " + response);

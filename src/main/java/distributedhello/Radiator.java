@@ -57,9 +57,9 @@ public class Radiator implements Heater {
             if(i < size/10) { mid.write(kByteArray, 0, KB); }
             large.write(kByteArray, 0, KB);
         }
-        data_small = small.toString();
-        data_mid = mid.toString();
-        data_large = large.toString();
+        this.data_small = small.toString();
+        this.data_mid = mid.toString();
+        this.data_large = large.toString();
     }
 
     @Override
@@ -76,9 +76,9 @@ public class Radiator implements Heater {
     }
 
     @Override
-    public String getDumpPackage() throws RemoteException {
+    public String getDumpPackage(long timeInMillis) throws RemoteException {
         System.out.println("method executed - getDumpPackage: " + (new Timestamp((new Date()).getTime())));
-        String data = this.data_large + ";" + (new Date()).getTime();
+        String data = this.data_large + ";" + timeInMillis;
         return data;
     }
 }

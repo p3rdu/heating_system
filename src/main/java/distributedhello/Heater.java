@@ -17,5 +17,5 @@ public interface Heater extends Remote {
     
     int getID() throws RemoteException, ServerNotActiveException;
     int getPower() throws RemoteException;
-    String getDumpPackage() throws RemoteException;
+    String getDumpPackage(long timeInMillis) throws RemoteException;
 }
