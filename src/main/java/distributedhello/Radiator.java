@@ -65,19 +65,21 @@ public class Radiator implements Heater {
     @Override
     public int getID() throws RemoteException, ServerNotActiveException {
         String remoteip = java.rmi.server.RemoteServer.getClientHost();
-        LOGGER.info("method getID executed from " + remoteip );
+        LOGGER.info(remoteip + " executed server method getID()");
         return id; 
     }
 
     @Override
-    public int getPower() throws RemoteException {
-        LOGGER.info("method executed - power: " + power);
+    public int getPower() throws RemoteException, ServerNotActiveException {
+        String remoteip = java.rmi.server.RemoteServer.getClientHost();
+        LOGGER.info(remoteip + " executed server method getPower(). Heater power is " + power);
         return power++; //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public String getDumpPackage(long timeInMillis) throws RemoteException {
-        System.out.println("method executed - getDumpPackage: " + (new Timestamp((new Date()).getTime())));
+    public String getDumpPackage(long timeInMillis) throws RemoteException, ServerNotActiveException {
+        String remoteip = java.rmi.server.RemoteServer.getClientHost();
+        System.out.print("---\n" + remoteip + " executed server method getDumpPackage() at " + (new Timestamp((new Date()).getTime())) + "---\n");
         String data = this.data_large + ";" + timeInMillis;
         return data;
     }

@@ -16,6 +16,6 @@ import java.rmi.server.ServerNotActiveException;
 public interface Heater extends Remote {
     
     int getID() throws RemoteException, ServerNotActiveException;
-    int getPower() throws RemoteException;
-    String getDumpPackage(long timeInMillis) throws RemoteException;
+    int getPower() throws RemoteException, ServerNotActiveException;
+    String getDumpPackage(long timeInMillis) throws RemoteException, ServerNotActiveException;
 }
