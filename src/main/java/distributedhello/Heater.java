@@ -7,6 +7,7 @@ package distributedhello;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.rmi.server.ServerNotActiveException;
 
 /**
  *
@@ -14,7 +15,7 @@ import java.rmi.RemoteException;
  */
 public interface Heater extends Remote {
     
-    int getID() throws RemoteException;
+    int getID() throws RemoteException, ServerNotActiveException;
     int getPower() throws RemoteException;
-    
+    String getDumpPackage() throws RemoteException;
 }

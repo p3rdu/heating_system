@@ -1,0 +1,40 @@
+- hosts: hosts
+  tasks:
+  
+  - name: build docker container
+    run_once: true
+    local_action:
+      module: docker_image
+      name: distributedhello
+      build:
+        path: /Users/psmaatta/NetBeansProjects/mavenproject1/distributedhello
+      source: build
+    tags:
+      - build
+  
+  - name: save image to tar
+    run_once: true
+    local_action:
+      module: docker_image
+      name: distributedhello
+      archive_path: distributedhello.tar
+      source: local
+    tags:
+      - save
+      
+  - name: Copy file to remote server
+    copy:
+      src: distributedhello.tar
+      dest: ~/distributedhello.tar
+    tags:
+      - copy
+  
+  - name: Load images to image repositories
+    docker_image:
+      name: p3rdu/distributedhello
+      load_path: distributedhello.tar
+      source: load
+    become: yes
+    tags:
+      - load
+  

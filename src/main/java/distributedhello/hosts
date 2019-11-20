@@ -1,0 +1,9 @@
+[all:vars]
+ansible_connection=ssh
+ansible_user=coreuser
+ansible_python_interpreter=/opt/bin/python
+
+[hosts]
+172.16.159.131
+172.16.159.132
+172.16.159.133
