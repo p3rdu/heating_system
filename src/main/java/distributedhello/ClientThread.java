@@ -68,8 +68,9 @@ public class ClientThread implements Runnable {
                         String response = stub.getDumpPackage(nowInMillis, packageSize);
                         long timeFromPacket = Long.parseLong(response.split(";")[1]);
                         timeDifference += new Date().getTime() - timeFromPacket;
+                        interArrivelrate = System.nanoTime();
                         //System.out.printf("Remote call execution took %d ms%n",  timeDifference);
-                        Thread.sleep(2000);
+                        //Thread.sleep(2000);
                     }
                     timeDifference /= iter;
                     System.out.println("Package size: " + packageSize + "; average Time: " + timeDifference + "ms");
