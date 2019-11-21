@@ -19,7 +19,7 @@ import java.util.LinkedList;
 
 /**
  *
- * @author psmaatta
+ * @author FAMP
  */
 public class ClientThread implements Runnable {
 
@@ -52,22 +52,29 @@ public class ClientThread implements Runnable {
                 Heater stub = (Heater) registry.lookup("Heater");
                 String packageSizes[] = {"small", "mid", "large"};
                 long timeDifference = 0;
-                int iter = 10;
+                long interArrivelrate = 0;
+                long interArrivelrateAvg = 0;
+                int iter = 50;
 
                 for(String packageSize : packageSizes) {
                     for(int j=0; j<iter; j++) {
                         Date now = new Date();
                         long nowInMillis = now.getTime();
-                        System.out.printf("Calling remote method getDumpPackage on host %s at %s%n", s.hostname, now.toString());
+                        //System.out.printf("Calling remote method getDumpPackage on host %s at %s%n", s.hostname, now.toString());
                         // the remote call !!!
+                        if(j != 0) {
+                            interArrivelrateAvg += System.nanoTime() - interArrivelrate;
+                        }
                         String response = stub.getDumpPackage(nowInMillis, packageSize);
                         long timeFromPacket = Long.parseLong(response.split(";")[1]);
                         timeDifference += new Date().getTime() - timeFromPacket;
-                        System.out.printf("Remote call execution took %d ms%n",  timeDifference);
+                        //System.out.printf("Remote call execution took %d ms%n",  timeDifference);
                         Thread.sleep(2000);
                     }
                     timeDifference /= iter;
                     System.out.println("Package size: " + packageSize + "; average Time: " + timeDifference + "ms");
+                    interArrivelrateAvg /= iter;
+                    System.out.println("Inter arrival rate Average time: " + interArrivelrateAvg + "ns");
                 }
                 
             } catch (Exception e) {

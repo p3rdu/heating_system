@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author psmaatta
+ * @author FAMP
  */
 public class Main {
     

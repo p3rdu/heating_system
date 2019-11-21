@@ -11,7 +11,7 @@ import java.rmi.server.ServerNotActiveException;
 
 /**
  *
- * @author psmaatta
+ * @author FAMP
  */
 public interface Heater extends Remote {
     

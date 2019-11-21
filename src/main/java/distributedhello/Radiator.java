@@ -14,7 +14,7 @@ import java.util.*;
 import java.sql.Timestamp;
 /**
  *
- * @author psmaatta
+ * @author FAMP
  */
 public class Radiator implements Heater {
     
@@ -68,7 +68,7 @@ public class Radiator implements Heater {
     @Override
     public String getDumpPackage(long timeInMillis, String packageType) throws RemoteException, ServerNotActiveException {
         String remoteip = java.rmi.server.RemoteServer.getClientHost();
-        System.out.print("---\n" + remoteip + " called method getDumpPackage at " + (new Timestamp((new Date()).getTime())) + "---\n");
+        //System.out.print("---\n" + remoteip + " called method getDumpPackage at " + (new Timestamp((new Date()).getTime())) + "---\n");
         String data = "";
         switch (packageType) {
             case "small":
