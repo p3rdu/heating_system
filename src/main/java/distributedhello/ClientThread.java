@@ -50,20 +50,26 @@ public class ClientThread implements Runnable {
             try {
                 Registry registry = LocateRegistry.getRegistry(s.hostname, s.port);
                 Heater stub = (Heater) registry.lookup("Heater");
-                for(int j=0; j<10; j++) {                   
-                    // String response = "power " + stub.getPower();
-                    Date now = new Date();
-                    long nowInMillis = now.getTime();
-                    System.out.println("Calling the remote method at " + now.toString());
-                    // the remote call !!!
-                    String response = stub.getDumpPackage(nowInMillis);
-                    long timeFromPacket = Long.parseLong(response.split(";")[1]);
-                    long timeDifference = new Date().getTime() - timeFromPacket;
-                    System.out.println("Sending time was: " + timeDifference);
-                    Thread.sleep(5000);
+                String packageSizes[] = {"small", "mid", "large"};
+                long timeDifference = 0;
+                int iter = 10;
+
+                for(String packageSize : packageSizes) {
+                    for(int j=0; j<iter; j++) {
+                        Date now = new Date();
+                        long nowInMillis = now.getTime();
+                        System.out.printf("Calling remote method getDumpPackage on host %s at %s%n", s.hostname, now.toString());
+                        // the remote call !!!
+                        String response = stub.getDumpPackage(nowInMillis, packageSize);
+                        long timeFromPacket = Long.parseLong(response.split(";")[1]);
+                        timeDifference += new Date().getTime() - timeFromPacket;
+                        System.out.printf("Remote call execution took %d ms%n",  timeDifference);
+                        Thread.sleep(2000);
+                    }
+                    timeDifference /= iter;
+                    System.out.println("Package size: " + packageSize + "; average Time: " + timeDifference + "ms");
                 }
-                // System.out.printf("radiator ID %d%n", stub.getID());
-                // System.out.println("response: " + response);
+                
             } catch (Exception e) {
                 System.err.println("Client exception: " + e.toString());
                 e.printStackTrace();

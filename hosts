@@ -4,6 +4,6 @@ ansible_user=coreuser
 ansible_python_interpreter=/opt/bin/python
 
 [hosts]
-172.16.159.131
-172.16.159.132
-172.16.159.133
+172.16.159.131 runscript=startNode1.sh 
+172.16.159.132 runscript=startNode2.sh 
+172.16.159.133 runscript=startNode3.sh 

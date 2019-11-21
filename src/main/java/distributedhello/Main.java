@@ -10,6 +10,7 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.*;
 import java.util.LinkedList;
+import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 
 /**
@@ -32,6 +33,7 @@ public class Main {
             System.out.println("Enter Node id or IP address as an argument\n");
             return;
         }
+        initialiseLogger();
         // Get peers
         peers = processOrVM(args[0]);
         String peerString = "";
@@ -88,6 +90,15 @@ public class Main {
         hostname = node.hostname;
         port = node.port;
         return node_info.getRemainingNodes(id);
+    }
+    
+    private static void initialiseLogger() {
+        try {
+             FileHandler fileTxt = new FileHandler("logdata/Log.txt");
+             LOGGER.addHandler(fileTxt);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     
 }

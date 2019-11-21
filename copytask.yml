@@ -38,4 +38,12 @@
     become: yes
     tags:
       - load
-  
+      
+  - name: copy startfiles
+    copy:
+      src: "{{ runscript }}"
+      dest: ~/{{ runscript }}
+      mode: '0777'
+    tags:
+      - runscript    
+    

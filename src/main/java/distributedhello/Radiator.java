@@ -34,17 +34,6 @@ public class Radiator implements Heater {
         if (tmpid < 0) id = tmpid*-1;
         else id = tmpid;
         LOGGER.info("local Radiator ID: " + id);
-
-//      BAD        
-//        for(int i=0; i<1024; i++) {
-//            kbyte += "a";
-//        }
-
-//      BETTER
-//        char[] kByteCharArray = new char[1024];
-//        Arrays.fill(kByteCharArray, 'a');
-
-//      BEST
         byte a = (byte)'a';
         byte[] kByteArray = new byte[KB];
         Arrays.fill(kByteArray, a);
@@ -65,22 +54,35 @@ public class Radiator implements Heater {
     @Override
     public int getID() throws RemoteException, ServerNotActiveException {
         String remoteip = java.rmi.server.RemoteServer.getClientHost();
-        LOGGER.info(remoteip + " executed server method getID()");
+        LOGGER.info(remoteip + " called server method getID");
         return id; 
     }
 
     @Override
     public int getPower() throws RemoteException, ServerNotActiveException {
         String remoteip = java.rmi.server.RemoteServer.getClientHost();
-        LOGGER.info(remoteip + " executed server method getPower(). Heater power is " + power);
-        return power++; //To change body of generated methods, choose Tools | Templates.
+        LOGGER.info(remoteip + " called method getPower. Heater power is " + power);
+        return power++; 
     }
 
     @Override
-    public String getDumpPackage(long timeInMillis) throws RemoteException, ServerNotActiveException {
+    public String getDumpPackage(long timeInMillis, String packageType) throws RemoteException, ServerNotActiveException {
         String remoteip = java.rmi.server.RemoteServer.getClientHost();
-        System.out.print("---\n" + remoteip + " executed server method getDumpPackage() at " + (new Timestamp((new Date()).getTime())) + "---\n");
-        String data = this.data_large + ";" + timeInMillis;
+        System.out.print("---\n" + remoteip + " called method getDumpPackage at " + (new Timestamp((new Date()).getTime())) + "---\n");
+        String data = "";
+        switch (packageType) {
+            case "small":
+                data = this.data_small + ";" + timeInMillis;
+                break;
+            case "mid":
+                data = this.data_mid + ";" + timeInMillis;
+                break;
+            case "large":
+                data = this.data_large + ";" + timeInMillis;
+                break;
+            default:
+                System.out.println("Package Size not defined");
+        }
         return data;
     }
 }

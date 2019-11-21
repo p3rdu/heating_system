@@ -1,7 +1,12 @@
 # Created by https://www.gitignore.io/api/java,gradle
 
+.DS_Store
+
 # docker image
 distributedhello.tar
+
+# Log files 
+/logdata/
 
 ### Java ###
 *.class
